@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sealura</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="src/assets/css/style.css" />
     <style>
         #user-description {
             font-family: monospace;
@@ -26,9 +26,9 @@
         </div>
         <div id="terminal-content">
             <p id="terminal-text" style="text-align: center;">
-                ┏┓┏━┏┓
-                ┃┓┗┓┗┫
-                ┗┛┗┛┗┛
+                ┏┓┏━┏┓<br>
+                ┃┓┗┓┗┫<br>
+                ┗┛┗┛┗┛<br><br>
 
                 User: unknown<br>
                 IP: <span id="user-ip"></span>
@@ -39,14 +39,14 @@
 
     <div id="profile-section" style="display: none;">
         <div id="blurred-box">
-            <img id="avatar-frame" src="/src/assets/images/cat-profile.jpg" alt="Cat Profile Picture">
+            <img id="avatar-frame" src="src/assets/images/cat-profile.jpg" alt="Cat Profile Picture">
             <p id="username" style="color: white; font-weight: bold; font-size: large;">Snake</p>
             <div class="user-description">
                 <p id="user-description"></p>
             </div>
             <div class="links">
                 <a href="https://csharp.straw.page" target="_blank">
-                    <img src="/src/assets/images/Untitled.png" alt="Straw.page Logo" style="width: 28px; height: 28px; object-fit: contain;">
+                    <img src="src/assets/images/Untitled.png" alt="Straw.page Logo" style="width: 28px; height: 28px; object-fit: contain;">
                 </a>
             </div>
         </div>
@@ -54,16 +54,16 @@
 
     <div id="video-background">
         <video autoplay muted loop id="myVideo">
-            <source src="/src/assets/videos/background.mp4" type="video/mp4">
+            <source src="src/assets/videos/background.mp4" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
     </div>
 
     <script>
         const audioFiles = [
-            '/src/assets/audio/rage quit.mp3',
-            '/src/assets/audio/inci0 - reaper  w lieu & doxia (prod. dax).mp3',
-            '/src/assets/audio/lieucantfixit.mp3',
+            'src/assets/audio/rage quit.mp3',
+            'src/assets/audio/inci0 - reaper  w lieu & doxia (prod. dax).mp3',
+            'src/assets/audio/lieucantfixit.mp3',
         ];
 
         function playRandomAudio() {
@@ -74,7 +74,6 @@
 
             document.body.addEventListener('click', function () {
                 selectedAudio.play().catch(err => console.warn("Audio play failed:", err));
-                document.body.removeEventListener('click', arguments.callee);
             }, { once: true });
         }
 
@@ -91,9 +90,10 @@
         let descIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-        const descElement = document.getElementById("user-description");
+        let descElement = null;
 
         function typeEffect() {
+            if (!descElement) return;
             const current = descriptions[descIndex];
             const visibleText = current.substring(0, charIndex);
             descElement.textContent = visibleText;
@@ -113,11 +113,18 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(typeEffect, 1000);
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById("terminal").style.display = "none";
+                document.getElementById("profile-section").style.display = "block";
+
+                descElement = document.getElementById("user-description");
+                setTimeout(typeEffect, 500);
+            }
         });
     </script>
 
-    <script type="module" src="/src/main.ts"></script>
+    <!-- Remove this if you don’t have a compiled JS file -->
+    <!-- <script type="module" src="dist/main.js"></script> -->
 </body>
 </html>
